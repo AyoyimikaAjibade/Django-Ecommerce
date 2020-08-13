@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+{% load humanize %}
+
+<!-- Page Content -->
+<!-- Page Content -->
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-lg-3">
+      <h1 class=" logo my-4">Ecommerce</h1>
+      {% for category in categories %}
+      <div class="list-group">
+        <a href="{% url 'products:product_list_category' category_id=category.id %}" class="list-group-item">{{category.name}}</a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="col-lg-9">
+
+      <div class="card mt-4">
+        <img class="card-img-top img-fluid" src="{{product.media.url}}" alt="">
+        <div class="card-body">
+          <h3 class="card-title">{{product.name}}</h3>
+          <h4>${{product.price}}</h4>
+          <p class="card-text">{{product.description}}</p>
+          <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+          4.0 stars
+        </div>
+      </div>
+      <!-- /.card -->
+
+      <div class="card card-outline-secondary my-4">
+        <div class="card-header">
+          <h4>Reviews!</h4>
+            {% for review in reviews %}
+        </div>
+        <div class="card-body">
+          <p>{{review.comment}}</p>
+          <small class="text-muted">{{review.user.username}} | {{review.date_posted|naturaltime }}</small>
+          <hr>
+          {% endfor %}
+          <a href="#" class="btn btn-success" type="button" data-toggle="modal" data-target="#modal-create">Leave a
+            Review</a>
+        </div>
+        {% include 'review_modal.html' %}
+      </div>
+
+      <!-- /.card -->
+    </div>
+    <!-- /.col-lg-9 -->
+
+  </div>
+
+</div>
+<!-- /.container -->
+  {% endblock %}
+

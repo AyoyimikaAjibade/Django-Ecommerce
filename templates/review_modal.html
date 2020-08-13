@@ -1,0 +1,30 @@
+<div class="modal fade" id="modal-create">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">We love your reviews!</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                	<span>&times;</span>
+                </button>
+			</div>
+            <div class="modal-body">
+            	<form action="{% url 'products:review' product_id=product.id %}" method="post">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                    	<label for="reviewRating">Rating</label>
+                        <input type="number" class="form-control" id="reviewRating" placeholder="1-5" name="rating" min="0" max="5" required/>
+                    </div>
+
+                    <div class="form-group">
+                    	<label for="reviewComment">Comment</label>
+                        <textarea name="comment" id="reviewComment" class="form-control"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Review</button>
+
+            	</form>
+            </div>
+		</div>
+	</div>
+</div>
