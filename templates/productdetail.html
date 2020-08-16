@@ -6,6 +6,14 @@
 
 {% block content %}
 <div class="container">
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{{message.tags}}">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    {{message}}
+  </div>
+  {% endfor %}
+  {% endif %}
 
   <div class="row">
     <div class="col-lg-3">
@@ -34,7 +42,7 @@
       <div class="card card-outline-secondary my-4">
         <div class="card-header">
           <h4>Reviews!</h4>
-            {% for review in reviews %}
+          {% for review in reviews %}
         </div>
         <div class="card-body">
           <p>{{review.comment}}</p>
@@ -55,5 +63,5 @@
 
 </div>
 <!-- /.container -->
-  {% endblock %}
+{% endblock %}
 
