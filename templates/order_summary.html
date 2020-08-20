@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<br>
+  <div class="container">
+<div class="table-responsive text-nowrap">
+  <h2>Order Summary</h2>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Total Product Price</th>
+    </tr>
+  </thead>
+    <tbody>
+    {% for order_product in order.products.all %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{order_product.product.name}}</td>
+      <td>{{order_product.product.price}}</td>
+      <td>
+        <a href="{% url 'orders:remove_single_product_from_cart' order_product.product.id %}"><i class="fa fa-minus mr-2"></i></a>
+        {{order_product.quantity}}
+        <a href="{% url 'orders:add_to_cart' order_product.product.id %}"><i class="fa fa-plus ml-2"></i></a>
+      </td>
+      <td>{{order_product.get_total_product_price}}
+        <a style="color: red;" href="{% url 'orders:remove_from_cart' order_product.product.id %}"><i class="fa fa-trash float-right"></i></a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="5">Your cart is empty</td>
+    </tr>
+    <tr>
+      <td colspan="5">
+        <a class="btn btn-primary float-right" href="/">Continue Shopping</a>
+      </td>
+    </tr>
+    {% endfor %}
+    {% if order.get_total %}
+    <tr>
+      <td colspan="4"><b>Order Total</b></td>
+      <td><b>${{order.get_total}}</b></td>
+    </tr>
+    <tr>
+      <td colspan="5">
+        <a class="btn btn-warning float-right ml-2" href="{% url 'orders:checkout' %}">Proceed to Checkout</a>
+        <a class="btn btn-primary float-right" href="/">Continue Shopping</a>
+      </td>
+    </tr>
+    {% endif %}
+  </tbody>
+  </table>
+  </div>
+</div>
+{% endblock %}

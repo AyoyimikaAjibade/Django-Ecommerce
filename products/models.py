@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.core.validators import MaxValueValidator
 from django.contrib.auth.models import User
 
+
 class Category(models.Model):
     name = models.CharField(max_length=254, unique=True)
     class Meta:
@@ -20,11 +21,18 @@ class Product(models.Model):
     media = models.ImageField()
     price = models.DecimalField(max_digits=9, decimal_places=2)
 
+
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('products:product_detail',  args=[str(self.id)])
+
+    def get_add_to_cart_url(self):
+        return reverse('orders:add_to_cart', args=[str(self.id)])
+
+    def get_remove_from_cart_url(self):
+        return reverse('orders:remove_from_cart', args=[str(self.id)])
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -6,15 +6,6 @@
 
 {% block content %}
 <div class="container">
-  {% if messages %}
-  {% for message in messages %}
-  <div class="alert alert-{{message.tags}}">
-    <a href="#" class="close" data-dismiss="alert">&times;</a>
-    {{message}}
-  </div>
-  {% endfor %}
-  {% endif %}
-
   <div class="row">
     <div class="col-lg-3">
       <h1 class=" logo my-4">Ecommerce</h1>
@@ -30,6 +21,8 @@
       <div class="card mt-4">
         <img class="card-img-top img-fluid" src="{{product.media.url}}" alt="">
         <div class="card-body">
+          <a class="btn btn-primary btn-lg" href="{{ product.get_add_to_cart_url }}" >Add To Cart</a>
+            <a class="btn btn-danger btn-lg" href="{{ product.get_remove_from_cart_url }}" >Remove From Cart</a>
           <h3 class="card-title">{{product.name}}</h3>
           <h4>${{product.price}}</h4>
           <p class="card-text">{{product.description}}</p>

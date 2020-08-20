@@ -1,3 +1,4 @@
+#from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from .form import SignUpForm
 from django.shortcuts import render, redirect
@@ -13,7 +14,9 @@ def signup(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
+            #messages.info(request, "Successfully logged in!")
             return redirect('login')
+
         else:
             for msg in form.error_messages:
                 print(form.error_messages[msg])
