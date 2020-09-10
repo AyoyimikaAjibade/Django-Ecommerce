@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from .models import Product, Category, Review
 from django.contrib import messages
 
-
 def product_list(request):
     categories = Category.objects.all()
     products = Product.objects.filter(category_id=categories[0].id)
@@ -10,10 +9,15 @@ def product_list(request):
     return render(request, 'homepage.html', context)
 
 def product_list_category(request, category_id):
+    user_query = str(request.GET.get('query', ''))
     categories = Category.objects.all()
-    products = Product.objects.filter(category_id=category_id)
-    context = {'products': products, 'categories': categories}
-    return render(request, 'homepage.html', context)
+    products = Product.objects.filter(category_id=category_id, name__icontains=user_query)
+    if products.exists():
+        context = {'products': products, 'categories': categories}
+        return render(request, 'homepage.html', context)
+    else:
+        messages.info(request, 'Product not available!!')
+        return render(request, 'homepage.html')
 
 def product_detail(request, id):
     categories = Category.objects.all()

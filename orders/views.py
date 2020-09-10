@@ -6,10 +6,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.generic import View
 from products.models import Product
-from .models import OrderProduct, Order, BillingAddress, Payment
-from .forms import CheckoutForm
+from .models import OrderProduct, Order, BillingAddress, Payment, Refund, Tracker
+from .forms import CheckoutForm, RefundForm, TrackerForm
 import stripe
-from django.conf import settings
+import random
+import string
+
+
+def create_ref_code():
+    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
 
 
 class OrderSummaryView(LoginRequiredMixin, View):
@@ -212,8 +217,9 @@ class PaymentView(View):
 
             order.ordered = True
             order.payment = payment
+            order.ref_code = create_ref_code()
             order.save()
-            messages.success(self.request, "Your Order was successful")
+            messages.success(self.request, f"Your Order was successful with an id of {order.id}")
             #redirect to profile page or order success page
             return redirect("/")
 
@@ -239,4 +245,69 @@ class PaymentView(View):
         except Exception as e:
             messages.error(self.request, "A serious error occurred we have been notified")
             return redirect("/")
+
+class RequestRefundView(View):
+    def get(self, *args, **kwargs):
+        form = RefundForm()
+        context = {'form':form}
+        return render(self.request, 'request_refund.html', context)
+    def post(self, *args, **kwargs):
+        form = RefundForm(self.request.POST)
+        if form.is_valid():
+            ref_code = form.cleaned_data.get('ref_code')
+            message = form.cleaned_data.get('message')
+            #edit the order
+            try:
+                order = Order.objects.get(ref_code=ref_code)
+                order.refund_requested = True
+                order.save()
+
+                # store the refund
+                refund = Refund()
+                refund.order = order
+                refund.reason = message
+                refund.email = self.request.user.email
+                refund.save()
+                messages.info(self.request, 'Your request was received')
+                return redirect('/')
+            except ObjectDoesNotExist:
+                messages.info(self.request, 'This order does not exit')
+                return redirect('orders:request_refund')
+
+class OrderTrackerView(View):
+    def get(self, *args, **kwargs):
+        form = TrackerForm()
+        context = {'form': form}
+        return render(self.request, 'tracker.html', context)
+    def post(self, *args, **kwargs):
+        form = TrackerForm(self.request.POST)
+        if form.is_valid():
+            order_id = form.cleaned_data.get('order_id')
+            email = form.cleaned_data.get('email')
+            # edit the tracking process
+            try:
+                order = Order.objects.get(id=order_id)
+                if order.ordered == True:
+                    #if order.ordered.exists():
+                    order.save()
+                    messages.info(self.request, f'Your order has been placed at {order.ordered_date}')
+                elif order.refund_requested == True:
+                    order.save()
+                    messages.info(self.request, 'Your refund has been granted')
+                order.save()
+                # store the tracking process
+                tracker = Tracker()
+                tracker.order = order
+                tracker.email = self.request.user.email
+                tracker.save()
+                return redirect('orders:order_tracker')
+            except ObjectDoesNotExist:
+                messages.info(self.request, 'No active order')
+                return redirect('orders:order_tracker')
+
+
+
+
+
+
 
