@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'wub2y13a7(-h@v*)1u^dym@kd9hj@&
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ayoyimika-ecommerce.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
