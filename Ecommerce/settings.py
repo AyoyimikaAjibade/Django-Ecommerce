@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-import os
 
 from pathlib import Path
 
@@ -21,11 +20,15 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'wub2y13a7(-h@v*)1u^dym@kd9hj@&g895gt^$uweceva^wtnh'
+#SECRET_KEY = 'wub2y13a7(-h@v*)1u^dym@kd9hj@&g895gt^$uweceva^wtnh'
+# Read SECRET_KEY from an environment variable
+import os
+#SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'wub2y13a7(-h@v*)1u^dym@kd9hj@&g895gt^$uweceva^wtnh')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+# DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 ALLOWED_HOSTS = []
 
 
