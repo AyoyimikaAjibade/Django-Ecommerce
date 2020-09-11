@@ -19,7 +19,7 @@
     <div class="col-lg-9">
 
       <div class="card mt-4">
-        <img class="card-img-top img-fluid" src="{{product.media.url}}" alt="">
+        <img class="card-img-top img-fluid" src="{{product.media.url}}" alt="{{product.name}}" height=50 width=50>
         <div class="card-body">
           <a class="btn btn-primary btn-lg" href="{{ product.get_add_to_cart_url }}" >Add To Cart</a>
             <a class="btn btn-danger btn-lg" href="{{ product.get_remove_from_cart_url }}" >Remove From Cart</a>
