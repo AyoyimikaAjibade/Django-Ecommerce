@@ -4,14 +4,14 @@ from django.contrib import messages
 
 def product_list(request):
     categories = Category.objects.all()
-    products = Product.objects.filter(category_id=categories[0].id)
+    products = Product.objects.filter(category__id=categories[0].id)
     context = {'products':products, 'categories':categories}
     return render(request, 'homepage.html', context)
 
 def product_list_category(request, category_id):
     user_query = str(request.GET.get('query', ''))
     categories = Category.objects.all()
-    products = Product.objects.filter(category_id=category_id, name__icontains=user_query)
+    products = Product.objects.filter(category__id=category_id, name__icontains=user_query)
     if products.exists():
         context = {'products': products, 'categories': categories}
         return render(request, 'homepage.html', context)
