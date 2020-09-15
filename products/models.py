@@ -19,7 +19,6 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField(max_length=2457, default='')
     media = models.URLField(max_length=2000, default='https://via.placeholder.com/300x400?text=No+photo')
-    #media = models.ImageField()
     price = models.DecimalField(max_digits=9, decimal_places=2)
 
 
