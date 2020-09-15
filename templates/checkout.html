@@ -3,7 +3,8 @@
   {% block content %}
 
 <div class="container wow fadeIn">
-    <a class="btn btn-primary float-left" href="{% url 'orders:order_summary' %}">Continue Shopping</a>
+  <div><a class="btn btn-primary float-left" href="{% url 'orders:order_summary' %}">Continue Shopping</a></div>
+
   <h2 class="my-5 h2 text-center">Checkout form</h2>
   <div class="row">
     <div class="col-md-8 mb-4">
@@ -19,7 +20,7 @@
           </div>
           <div class="form-group">
             <label for="address2">Address 2</label>
-           <!--  <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"> -->
+            <!--  <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"> -->
             {{form.apartment_address}}
           </div>
           <div class="form-row">
@@ -42,7 +43,7 @@
               <!--  <input class="form-check-input" type="checkbox" id="gridCheck" name="same_billing_address"> -->
               {{form.same_shipping_address}}
               <label class="form-check-label" for="gridCheck">
-                Shipping address is the  same as my billing address
+                Shipping address same as billing address
               </label>
             </div>
             <div class="form-check">
@@ -57,7 +58,8 @@
             <div class="form-group">
               {% for value, name in form.fields.payment_option.choices %}
               <div class="form-check">
-              <input class="form-check-input" type="radio" value="{{value}}" name="payment_option" id="{{name}}" required>
+                <input class="form-check-input" type="radio" value="{{value}}" name="payment_option" id="{{name}}"
+                       required>
                 <label class="form-check-label" for="{{name}}">{{name}}</label>
               </div>
               {% endfor %}
@@ -66,17 +68,17 @@
 
           <div class="card-footer">
             <button class="btn btn-success btn-lg btn-block" type="submit">Continue to Checkout</button>
-        </div>
+          </div>
 
         </form>
-        </div>
+      </div>
     </div>
 
     <div class="col-md-4 mb-4">
       {% include 'order_snippet.html' %}
     </div>
 
-    </div>
   </div>
+</div>
 
 {% endblock %}
