@@ -33,12 +33,6 @@
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <form name="search" action="" class="form-inline">
-            <div class="form-group">
-                <input type="text" name="query" class="form-control" value="{{request.GET.query}}"/>
-                <input type="submit" class="btn btn-primary" value="Search"/>
-            </div>
-        </form>
 
         <div class="collapse navbar-collapse" id="navbarResponsive">
             {% if request.user.is_authenticated %}
