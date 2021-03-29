@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load cart_template_tags %}
 <html lang="en">
-
+   {% load static %}
 <head>
 
     <meta charset="utf-8">
@@ -11,7 +11,7 @@
 
     <title>
         {% block title%}Ecommerce{% endblock title%}</title>
-    {% load static %}
+
     <!-- Bootstrap core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Peralta" rel="stylesheet">
